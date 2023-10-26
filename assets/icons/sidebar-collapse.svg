@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="19px" viewBox="0 0 24 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>sidebar-collapse</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sidebar-collapse" transform="translate(1.000000, 1.000000)" stroke="#000000" stroke-width="2">
+            <g id="share" transform="translate(11.000000, 9.000000) rotate(-91.000000) translate(-11.000000, -9.000000) translate(3.000000, -1.000000)">
+                <path d="M0,10 L0,18 C0,19.1045695 0.8954305,20 2,20 L14,20 C15.1045695,20 16,19.1045695 16,18 L16,10" id="Shape"></path>
+                <polyline id="Shape" points="12 4 8 0 4 4"></polyline>
+                <polyline id="Shape-Copy" transform="translate(8.000000, 13.000000) rotate(-180.000000) translate(-8.000000, -13.000000) " points="12 15 8 11 4 15"></polyline>
+                <path d="M7.98254759,0.999847695 L7.98254759,13.9998477" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

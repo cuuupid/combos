@@ -1,0 +1,55 @@
+:root {
+  /* Brand color */
+  --primary-color: #5541c8;
+  --primary-color-hover: #4231a4;
+
+  /* Background colors (Application, elements and windows) */
+  --primary-background-color: #2523328a;
+  --secondary-background-color: #080615;
+
+  --p-opaque: #1c1c1cf5;
+  --s-opaque: #070707f2;
+
+  --main-bg: #0d0d0d91;
+
+  --primary-background-color-hover: #14161b;
+  --secondary-background-color-hover: #000000a6;
+
+  --modal-backdrop: #000000db;
+
+  --sidebar-bg: #00000021;
+
+  /* Fonts */
+  --primary-font: "";
+  --primary-font-color: #ffffff99;
+  --strong-font-color: #ffffff;
+  --body-font-size: 14px;
+  --small-font-size: 13px;
+
+  /* Buttons */
+  --btn-font-size: 14px;
+  --btn-font-weight: 500;
+
+  /* Border Radius */
+  --primary-border-radius: 5px;
+
+  /* Changes the color fo all icons */
+  --icon-filter: invert(22%) sepia(63%) saturate(3131%) hue-rotate(242deg) brightness(120%) contrast(86%);
+  /* Shadows */
+  --sidebar-shadow: 3px 50px 10px #00000040;
+  --header-shadow: 8px 1px 10px #0000002e;
+  --board-shadow: 0px 4px 20px 0 #0000001c;
+  --modal-shadow: 0 0 75px -10px #00000047;
+  --modal-bg: #1f1f1fcf;
+  --email-bottom-shadow: inset 5px 22px 40px -20px #00000073;
+}
+
+html,
+body,
+#app {
+  background-color: #000;
+}
+
+.editor {
+  background: var(--primary-background-color);
+}

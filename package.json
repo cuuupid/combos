@@ -1,0 +1,52 @@
+{
+  "name": "combo",
+  "productName": "Combo",
+  "version": "0.0.1",
+  "description": "Replicate Combo",
+  "scripts": {
+    "preinstall": "node package-inherit-cli.js update",
+    "start": "vite",
+    "build": "vite build",
+    "open": "open http://localhost:5155",
+  },
+  "keywords": [],
+  "author": {
+    "name": "💔",
+    "email": "pink@paragon.black"
+  },
+  "license": "Proprietary, all rights reserved, no permissions granted.",
+  "dependencies": {
+    "@vue-flow/core": "^1.23.0",
+    "@vueuse/core": "^10.4.1",
+    "auto-bind": "^4.0.0",
+    "bootstrap-vue": "^2.22.0",
+    "colors": "^1.4.0",
+    "hotkeys-js": "^3.12.0",
+    "jquery": "^3.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "lottie-web-vue": "2.0.6",
+    "lowlight": "^2.8.0",
+    "replicate": "^0.20.1",
+    "sass": "^1.66.1",
+    "sass-loader": "^13.3.2",
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.9",
+    "vue": "^3.2.38",
+    "vue-router": "^4.0.13",
+    "ws": "^7.2.5"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/sortablejs": "^1.15.0",
+    "@types/ws": "^7.4.7",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/devtools": "^6.0.0-beta.21",
+    "@vue/tsconfig": "^0.1.3",
+    "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.0.1",
+    "tsc-alias": "^1.7.0",
+    "tsconfig-paths": "^4.1.2",
+    "vite": "^3.0.9"
+  }
+}

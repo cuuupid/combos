@@ -1,0 +1,74 @@
+.sidebar .top a {
+  height: 60px;
+  padding-top: 18px !important;
+  padding-left: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: var(--primary-background-color);
+  color: var(--strong-font-color) !important;
+}
+
+.sidebar .top .composecont a img {
+  margin-top: -2px !important;
+}
+
+.board-width-trigger {
+  display: none;
+}
+
+.acont {
+  display: none;
+}
+
+.tesla-warning {
+  display: block !important;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  background: red;
+  color: #fff;
+  margin-top: -1px;
+  padding-top: 2px;
+  font-size: 18px !important;
+}
+
+.sidebar .top .composecont a {
+  font-weight: 600;
+  background-color: var(--primary-color);
+}
+
+.icon-filter {
+  filter: invert(100%) !important;
+}
+
+.sidebar .top a img {
+  margin-top: -15px !important;
+}
+
+.normal {
+  opacity: 1 !important;
+}
+
+.email-card .subject {
+  font-size: 17px !important;
+  height: 24px !important;
+}
+
+.email-card .preview {
+  font-size: 16px !important;
+  line-height: 19px !important;
+  height: 39px !important;
+}
+
+.email-card .bottom .quick-action span {
+  font-size: 14px !important;
+}
+
+.count {
+  margin-left: 11px !important;
+  margin-bottom: 22px !important;
+}
+
+.board-header h1 {
+  font-size: 22px !important;
+}

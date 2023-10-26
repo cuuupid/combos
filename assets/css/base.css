@@ -1,0 +1,356 @@
+@import'./bootstrap.min.css';
+
+@import "./dark.css";
+/* TODO: OTHER CSS FILES TO IMPORT BASED ON PREFERENCE
+TODO: NEED TO UPDATE LIGHT AND DARK CSS WITH AUTO PROPERTIES
+@import "./auto.css";
+@import "./light.css";
+@import "./tesla.css";
+*/
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  display: inline-flex;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+section {
+  padding: 40px 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  border-top: 1px solid var(--secondary-background-color);
+}
+
+.footnote {
+  border-top: none !important;
+}
+
+.display-grid {
+  display: grid;
+}
+
+a {
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+p {
+  font-size: var(--body-font-size);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--primary-font-color);
+  user-select: none;
+}
+
+p {
+  color: var(--primary-font-color);
+}
+
+@media (max-width:576px) {
+  .no-mobile {
+    display: none !important;
+  }
+
+  section {
+    padding: 20px 0 20px 0;
+  }
+}
+
+@media (min-width:577px) {
+  .no-desktop {
+    display: none !important;
+  }
+
+}
+
+@media (max-width:767px) {
+  .no-tablet {
+    display: none !important;
+  }
+}
+
+::-moz-selection {
+  background: var(--primary-color);
+  color: var(--strong-font-color);
+}
+
+::selection {
+  background: var(--primary-color);
+  color: var(--strong-font-color);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  display: none;
+  z-index: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  width: 20px;
+  height: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+  width: 20px;
+  height: 20px;
+}
+
+
+button {
+  outline: none !important;
+}
+
+
+.card {
+  padding: 7px;
+  background: var(--secondary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.card p {
+  margin: 0;
+  padding: 10px 0;
+  color: var(--strong-font-color);
+}
+
+.card span {
+  color: var(--primary-font-color) !important;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.padded {
+  padding: 20px;
+}
+
+.error {
+  color: #e91e63 !important;
+  font-weight: bold;
+}
+
+input,
+textarea {
+  background: var(--primary-background-color);
+  font-size: 15px;
+  border: 1px solid var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  color: var(--strong-font-color);
+  outline: none;
+  cursor: text;
+  transition: .1s;
+}
+
+.primary {
+  color: var(--primary-color) !important;
+}
+
+.strong {
+  color: var(--strong-font-color) !important;
+}
+
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error {
+  color: #d0021c !important;
+}
+
+.red {
+  color: #d0021c !important;
+}
+
+.primarycolor {
+  color: var(--primary-color) !important;
+}
+
+.bodycolor {
+  color: var(--primary-font-color) !important;
+}
+
+.modal-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+}
+
+.p0 {
+  padding: 0;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--primary-font-color);
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--primary-font-color);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--primary-font-color);
+}
+
+.govprocheckbox {
+  margin-top: 10px;
+}
+
+.govprocheckbox input[type="checkbox"] {
+  display: none;
+}
+
+.govprocheckbox input[type="checkbox"]+label {
+  position: relative;
+  cursor: pointer;
+}
+
+.govprocheckbox input[type="checkbox"]+label:hover:before {
+  background: var(--primary-background-color);
+  border-color: var(--primary-color);
+}
+
+.govprocheckbox input[type="checkbox"]+label:before {
+  content: "";
+  display: inline-block;
+  background: var(--secondary-background-color);
+  width: 17px;
+  height: 17px;
+  border: 1px solid var(--primary-color);
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 7px;
+  border-radius: 2px;
+  transition: all 0.1s;
+}
+
+.govprocheckbox input[type="checkbox"]+label:after {
+  opacity: 0;
+  content: "";
+  background-image: url(/Veil/assets/icons/check2.svg);
+  width: 11px;
+  height: 13px;
+  filter: brightness(2);
+  display: block;
+  color: var(--secondary-background-color);
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transform: scale(0.5);
+  transition: all 0.25s cubic-bezier(0.75, 0.1, 0.1, 0.5);
+}
+
+.govprocheckbox input[type="checkbox"]:checked+label:before {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.govprocheckbox input[type="checkbox"]:checked+label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+[type="radio"]:checked+label,
+[type="radio"]:not(:checked)+label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: var(--primary-font-color);
+}
+
+[type="radio"]:checked+label:before,
+[type="radio"]:not(:checked)+label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--primary-font-color);
+  border-radius: 100%;
+  background: var(--primary-background-color);
+}
+
+[type="radio"]:checked+label:after,
+[type="radio"]:not(:checked)+label:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--primary-color);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+[type="radio"]:not(:checked)+label:after {
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+[type="radio"]:checked+label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.ghost.small {
+  width: 30px !important;
+  transition: .2s;
+}
+
+.ghost.large {
+  width: 300px !important;
+  transition: .2s;
+}
+
+.ghost.medium {
+  width: 150px !important;
+  transition: .2s;
+}
+
+
+.dragarea {
+  width: 100%;
+  height: 100%;
+  transition: .2s;
+}

@@ -1,0 +1,95 @@
+  /* Light theme Variables */
+  :root {
+    /* Background colors (Application, elements and windows) */
+    --primary-background-color: #d6e1f0;
+    --secondary-background-color: rgba(255, 255, 255, 0.2);
+
+    --primary-background-color-hover: #bbc9dc;
+    --secondary-background-color-hover: #21201d;
+
+    --modal-backdrop: #ffffff7d;
+
+    /* Fonts */
+    --primary-font: "";
+    --primary-font-color: #515688;
+    --strong-font-color: #282c4c;
+
+    /* Changes the color fo all icons */
+    --icon-filter: invert(31%) sepia(7%) saturate(3361%) hue-rotate(197deg) brightness(101%) contrast(84%);
+
+    /* Shadows */
+    --sidebar-shadow: none;
+    --header-shadow: none;
+    --board-shadow: none;
+    --modal-shadow: box-shadow: 0 0 75px -10px #00408547;
+    --modal-special-background: #e1e7f7cc;
+    --email-bottom-shadow: inset 5px 30px 10px -30px #00000017 !important;
+  }
+
+  #app {
+    overflow: hidden;
+    user-select: none;
+    background-position: top;
+    background-size: cover;
+  }
+
+  .modal {
+    background: var(--modal-special-background);
+  }
+
+  .email-card:hover {
+    filter: brightness(0.97) !important;
+  }
+
+  .composer-options {
+    box-shadow: rgb(0 0 0 / 15%) 0px 0px 7px 0px;
+    width: fit-content;
+  }
+
+  .composer .left {
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .right {
+    background: var(--primary-background-color) !important;
+  }
+
+  .composer input {
+    border: none;
+    border-top: 2px solid var(--primary-background-color);
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .textarea {
+    border-top: 2px solid var(--primary-background-color) !important;
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer input:focus,
+  .composer input:active {
+    filter: brightness(0.96) !important;
+    transition: .1s;
+  }
+
+  .composer .bottom {
+    background: var(--secondary-background-color) !important;
+  }
+
+  .small .board-header:hover {
+    filter: brightness(0.95) !important;
+    transition: .1s;
+  }
+
+  .small-board-click-area:hover+.board-header {
+    filter: brightness(0.95) !important;
+    transition: .1s;
+  }
+
+  .email-card.qr .quick-reply {
+    background: #fff !important;
+    box-shadow: inset 0px 0px 30px -10px #00000054 !important;
+  }
+
+  .editor {
+    background: var(--secondary-background-color);
+  }
