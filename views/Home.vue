@@ -6,7 +6,6 @@ import ModalShell from "@Muse/components/modals/ModalShell.vue"
 import ModalLoading from '@Muse/components/modals/ModalLoading.vue'
 import LoaderScreen from '@Muse/components/loaders/LoaderScreen.vue';
 import DAG from '@Muse/components/DAG.vue'
-import Sidebar from '@Muse/components/Sidebar.vue'
 
 const router = useRouter()
 const route = ref(router.currentRoute.value.name)
@@ -22,7 +21,6 @@ const route = ref(router.currentRoute.value.name)
 
         <div class="main">
           <DAG />
-          <Sidebar />
         </div>
 
         <template #fallback>
@@ -54,9 +52,5 @@ const route = ref(router.currentRoute.value.name)
   margin-top: -10px;
   padding-top: 10px;
   width: -webkit-fill-available;
-}
-
-.vue-flow {
-  width: calc(100% - 500px);
 }
 </style>

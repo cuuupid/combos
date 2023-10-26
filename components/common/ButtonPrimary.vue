@@ -28,7 +28,7 @@ const hover = computed(() => {
   </a>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 a {
   background: v-bind(bgColor);
   color: v-bind(fgColor) !important;
@@ -46,15 +46,14 @@ a {
   margin-bottom: 5px;
   letter-spacing: .3px;
   transition: .1s;
+  img {
+    width: 12px;
+    margin-top: -3px;
+  }
 }
 
 a:hover {
   background: v-bind(hover);
   transition: .1s;
-}
-
-img {
-  width: 17px;
-  margin-top: -2px;
 }
 </style>
