@@ -4,7 +4,7 @@ import ModalShell from "@Muse/components/modals/ModalShell.vue"
 import { useRouter } from 'vue-router'
 import { ref } from '@vue/reactivity'
 import ModalLoading from '@Muse/components/modals/ModalLoading.vue'
-import LoaderScreen from '@Muse/components/Loaders/LoaderScreen.vue';
+import LoaderScreen from '@Muse/components/loaders/LoaderScreen.vue';
 const router = useRouter()
 const route = ref(router.currentRoute.value.name)
 

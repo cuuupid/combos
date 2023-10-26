@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import "@aiko/dwarfhaven"
-import LoaderScreen from "@Muse/components/Loaders/LoaderScreen.vue"
-import Icon from "@Muse/components/Icon.vue";
+import Icon from "@Muse/components/common/Icon.vue";
 import devtools from "@vue/devtools"
 if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
@@ -13,8 +11,6 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
     </span>
   </div>
 
-  <!-- Full Screen Loader -->
-  <LoaderScreen v-if="false" />
   <div class="main">
     <router-view />
   </div>
