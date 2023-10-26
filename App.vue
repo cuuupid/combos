@@ -2,6 +2,7 @@
 import Icon from "@Muse/components/common/Icon.vue";
 import devtools from "@vue/devtools"
 if (process.env.NODE_ENV === 'development') devtools.connect()
+import "@Muse/lib/api"
 </script>
 
 <template>
@@ -55,4 +56,4 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
     display: none;
   }
 }
-</style>
+</style>@Muse/lib/api
