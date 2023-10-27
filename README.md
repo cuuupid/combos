@@ -1,3 +1,2 @@
-# Boilerplate
+# combos
 
-Basic Vue boilerplate, crafted by @cuuupid
