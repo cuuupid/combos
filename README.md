@@ -20,11 +20,11 @@ You need:
 
 ### Build a graph
 
-https://github.com/cuuupid/combos/assets/6960204/c6b123be-6a1c-4d53-989e-918e96c71cbb
+https://github.com/cuuupid/combos/assets/6960204/e0d21cba-fcf3-4794-82fd-8e0687ff4857
 
 ### Add Inputs
 
-https://github.com/cuuupid/combos/assets/6960204/78085779-1d96-413b-b4ae-0760ea72c276
+https://github.com/cuuupid/combos/assets/6960204/7f5bdb19-b25c-4c95-a7e5-706d371f2f65
 
 ### Click run
 
@@ -32,4 +32,5 @@ https://github.com/cuuupid/combos/assets/6960204/78085779-1d96-413b-b4ae-0760ea7
 
 ### View every step of the process
 
-https://github.com/cuuupid/combos/assets/6960204/96829f04-5b89-4514-81ba-def9cff878ca
+https://github.com/cuuupid/combos/assets/6960204/24102a95-17b3-467c-bde5-d983776e1af4
+
