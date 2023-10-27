@@ -14,7 +14,7 @@ const {
   fitView,
   onPaneReady, onConnect,
   addEdges, addNodes,
-  findNode, getConnectedEdges,
+  findNode, getConnectedEdges, getSelectedNodes,
   getNodes, getEdges,
   toObject
 } = useVueFlow({
@@ -135,7 +135,7 @@ const addModel = async () => {
     style: { backgroundColor: '#f9d4', height: HEIGHT + 'px', width: WIDTH + 'px' },
     draggable: false,
     connectable: false,
-    selectable: true,
+    selectable: false,
     expandParent: true,
     type: 'model-container'
   }])
@@ -150,7 +150,7 @@ const addModel = async () => {
       position: { x: lastX.value, y: lastY.value },
       style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#03F4' },
       extent: 'parent',
-      selectable: false,
+      selectable: true,
       type: 'model-input',
       data: schema
     }
@@ -167,7 +167,7 @@ const addModel = async () => {
     style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#9fd4' },
     extent: 'parent',
     connectable: false,
-    selectable: false,
+    selectable: true,
     type: 'model',
     data: model,
   }])
@@ -182,7 +182,7 @@ const addModel = async () => {
       position: { x: lastX.value, y: lastY.value },
       style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#618484' },
       extent: 'parent',
-      selectable: false,
+      selectable: true,
       type: 'model-output',
       data: schema
     }
@@ -329,6 +329,16 @@ const run = async () => {
     <ButtonPrimary @click="addImage">
       <Icon name="plus" color="white" /> Add Image
     </ButtonPrimary>
+    <div class="val" v-if="vals[getSelectedNodes[0]?.id]?.value">
+      <span v-if="vals[getSelectedNodes[0].id].data.type == 'string'">{{ vals[getSelectedNodes[0].id].value }}</span>
+      <img v-if="vals[getSelectedNodes[0].id].data.type == 'image'" crossorigin="anonymous" :src="vals[getSelectedNodes[0].id].value!">
+      <audio crossorigin="anonymous" v-if="vals[getSelectedNodes[0].id].data.type == 'audio'" controls>
+        <source :src="vals[getSelectedNodes[0].id].value!" type="audio/wav">
+      </audio>
+      <span v-if="vals[getSelectedNodes[0].id].type == 'model'">
+        <pre>{{ JSON.stringify(JSON.parse(vals[getSelectedNodes[0].id].value!), undefined, 4) }}</pre>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -347,6 +357,26 @@ const run = async () => {
   position: absolute;
   right: 15px;
   top: 15px;
+}
+
+.val {
+  max-width: 450px;
+  margin-top: 20px;
+  max-height: 800px;
+  overflow-y: scroll;
+  img {
+    max-width: 100%;
+  }
+  audio {
+    width: 100%;
+  }
+  span {
+    color: white;
+  }
+  pre {
+    background-color: black;
+    color: white;
+  }
 }
 
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.23.0/dist/style.css';

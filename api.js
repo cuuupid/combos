@@ -1,4 +1,5 @@
 const express = require('express')
+const { default: fetch } = require('node-fetch')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -36,6 +37,13 @@ app.post('/model/run', async (q, s) => {
   const result = await replicate.run(id, {input,})
   console.log(result)
   return s.json(result).status(200).send()
+})
+
+app.post('/load/:url', async (q, s) => {
+  const { url } = q.params
+  console.log("Proxying", url)
+  const result = await fetch(url)
+  return result.body.pipe(s).status(200)
 })
 
 app.listen(PORT, () => console.log(`listening ::${PORT}`))
