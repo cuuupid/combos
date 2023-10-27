@@ -259,12 +259,22 @@ onConnect((params) => {
 
 interface Step extends TopologicalNode {
   source: string
-  value: Maybe<number>
+  value: Maybe<string>
 }
+
+const values = ref<{[id: string]: Step}>({})
 const run = async () => {
   const steps: Step[] = topologicalSort(getNodes.value, getEdges.value)
     .map((step): Step => ({...step, value: null}))
-  console.log(steps)
+
+  for (const step of steps) {
+    if (step.source == 'INPUT') {
+      step.value = prompt(`Provide a value for ${step.label}`)
+    } else {
+
+    }
+  }
+
 }
 </script>
 
