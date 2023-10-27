@@ -1,18 +1,26 @@
 <script lang="ts" setup>
-import { VueFlow, useVueFlow, type Node } from '@vue-flow/core'
+import { VueFlow, useVueFlow, type Node, Position } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
 import { ref } from 'vue'
 import type { ModelGetS } from '@Muse/lib/api';
 import API from '@Muse/lib/api';
+import ButtonPrimary from '@Muse/components/common/ButtonPrimary.vue';
+import Icon from "@Muse/components/common/Icon.vue"
 
-const { onPaneReady, onConnect, addEdges, fitView, addNodes } = useVueFlow({
+const { onPaneReady, onConnect, addEdges, fitView, addNodes, findNode } = useVueFlow({
   fitViewOnInit: true,
   elevateNodesOnSelect: true,
   elevateEdgesOnSelect: false,
 })
 const lastX = ref<number>(0)
 const lastY = ref<number>(0)
+
+const inferType = (key: string, type: string): string => {
+  if (['image', 'image_path', "uri"].includes(key)) return 'image'
+  if (['audio'].includes(key)) return 'audio'
+  return type
+}
 
 interface Schema {
   type: string
@@ -27,7 +35,9 @@ interface Model {
   inputs: Schema[]
   outputs: Schema[]
 }
-const addModel = async (name: string) => {
+const addModel = async () => {
+  const name = prompt("Which model would you like to add?")
+  if (!name) throw new Error("user did not provide model name")
   const model = await API.model.get(name)
   const Model: Model = {
     raw: model,
@@ -43,10 +53,12 @@ const addModel = async (name: string) => {
     const requiredInputs = (inputSchema.required ?? []).map((key: string) => ({
       ...(schemas.Input.properties[key]),
       key,
+      type: inferType(key, inputSchema.properties[key].type)
     }))
     Model.inputs = Object.keys(inputSchema.properties).map(key => ({
       ...(inputSchema.properties[key]),
       key,
+      type: inferType(key, inputSchema.properties[key].type)
     }))
     if (requiredInputs.length == 0) {
       requiredInputs.push(...(Model.inputs.filter(({ key, }) => [
@@ -68,10 +80,12 @@ const addModel = async (name: string) => {
     const requiredOutputs = (schemas.ModelOutput ?? schemas.Output).required.map((key: string) => ({
       ...(schemas.ModelOutput.properties[key]),
       key,
+      type: inferType(key, outputSchema.properties[key].type)
     }))
     Model.outputs = Object.keys(outputSchema.properties).map(key => ({
       ...(outputSchema.properties[key]),
       key,
+      type: inferType(key, outputSchema.properties[key].type)
     }))
     if (requiredOutputs.length == 0) {
       requiredOutputs.push(...(Model.outputs.filter(({ key, }) => [
@@ -85,7 +99,7 @@ const addModel = async (name: string) => {
     output_nodes.push(...requiredOutputs)
   } else if (outputSchema.type == 'array') {
     Model.outputs = [{
-      type: outputSchema.items.type,
+      type: inferType(outputSchema.items.format, outputSchema.items.type),
       format: outputSchema.items.format
     }]
     output_nodes.push(...Model.outputs)
@@ -105,7 +119,10 @@ const addModel = async (name: string) => {
     position: {x: lastX.value, y: lastY.value },
     style: { backgroundColor: '#f9d4', height: HEIGHT + 'px', width: WIDTH + 'px' },
     draggable: false,
-    connectable: false
+    connectable: false,
+    selectable: true,
+    expandParent: true,
+    type: 'model-container'
   }])
   lastY.value += PADDING
   lastX.value = input_nodes.length >= output_nodes.length ? 0
@@ -117,7 +134,10 @@ const addModel = async (name: string) => {
       label: schema.title ?? schema.key ?? schema.format ?? schema.type,
       position: { x: lastX.value, y: lastY.value },
       style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#03F4' },
-      extent: 'parent'
+      extent: 'parent',
+      selectable: false,
+      type: 'model-input',
+      data: schema
     }
     lastX.value += NODE_WIDTH
     return node
@@ -131,7 +151,9 @@ const addModel = async (name: string) => {
     position: { x: lastX.value, y: lastY.value },
     style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#9fd4' },
     extent: 'parent',
-    connectable: false
+    connectable: false,
+    selectable: false,
+    type: 'model',
   }])
   lastX.value = output_nodes.length >= input_nodes.length ? 0
     : WIDTH/2 - (output_nodes.length * (NODE_WIDTH + PADDING) + PADDING)/2;
@@ -143,7 +165,10 @@ const addModel = async (name: string) => {
       label: schema.title ?? schema.key ?? schema.format ?? schema.type,
       position: { x: lastX.value, y: lastY.value },
       style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px', backgroundColor: '#618484' },
-      extent: 'parent'
+      extent: 'parent',
+      selectable: false,
+      type: 'model-output',
+      data: schema
     }
     lastX.value += NODE_WIDTH
     return node
@@ -168,29 +193,46 @@ const addModel = async (name: string) => {
 
   fitView()
 
-  return Model
+  console.log(Model)
 }
-// @ts-ignore
-window.addModel = addModel
 
 onPaneReady(({ fitView }) => fitView())
 setTimeout(fitView, 300)
 
 onConnect((params) => {
-  // TODO: only allow connections for matched types
+  const source = findNode(params.source)
+  if (!source) throw new Error("No source node")
+  const target = findNode(params.target)
+  if (!target) throw new Error("No target node")
+  console.log(source.type, '->', target.type)
+  if (!(source.type.includes('output') && target.type.includes('input'))) return false
+  console.log(source.data.type, '->', target.data.type)
+  if (source.data.type != target.data.type) return false
   addEdges(params)
 })
 </script>
 
 <template>
-  
   <VueFlow class="dark basicflow" :default-viewport="{ zoom: 1.5 }" :min-zoom="0.2" :max-zoom="4">
     <Background pattern-color="#484848" :gap="8" />
     <Controls />
   </VueFlow>
+  <div class="control-panel">
+    <ButtonPrimary @click="addModel"><Icon name="plus" color="white" /> Add Model</ButtonPrimary>
+  </div>
 </template>
 
 <style lang="scss">
+.control-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  background-color: var(--primary-background-color);
+}
+
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.23.0/dist/style.css';
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.23.0/dist/theme-default.css';
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/controls@latest/dist/style.css';
