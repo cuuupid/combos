@@ -47,7 +47,7 @@ export default (nodes: Node[], edges: Edge[]): TopologicalNode[] => {
     if (!source) throw new Error('No source found for node ' + step.id)
     return {
       ...step,
-      source: edges.filter(({ target }) => target == step.id)[0]?.source,
+      source,
     }
   })
 }
