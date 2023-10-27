@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { VueFlow, useVueFlow, type Node, Position } from '@vue-flow/core'
+import { VueFlow, useVueFlow, type Node, type Edge, Position } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
 import { ref } from 'vue'
@@ -7,8 +7,17 @@ import type { ModelGetS } from '@Muse/lib/api';
 import API from '@Muse/lib/api';
 import ButtonPrimary from '@Muse/components/common/ButtonPrimary.vue';
 import Icon from "@Muse/components/common/Icon.vue"
+import topologicalSort, { type TopologicalNode } from "@Muse/utils/topological-sort"
+import type { Maybe } from '@Muse/state/common';
 
-const { onPaneReady, onConnect, addEdges, fitView, addNodes, findNode, getConnectedEdges } = useVueFlow({
+const {
+  fitView,
+  onPaneReady, onConnect,
+  addEdges, addNodes,
+  findNode, getConnectedEdges,
+  getNodes, getEdges,
+  toObject
+} = useVueFlow({
   fitViewOnInit: true,
   elevateNodesOnSelect: true,
   elevateEdgesOnSelect: false,
@@ -35,6 +44,10 @@ interface Model {
   inputs: Schema[]
   outputs: Schema[]
 }
+const PADDING = 30
+const NODE_WIDTH = 200
+const NODE_HEIGHT = 40
+
 const addModel = async () => {
   const name = prompt("Which model would you like to add?")
   if (!name) throw new Error("user did not provide model name")
@@ -106,9 +119,6 @@ const addModel = async () => {
   }
 
   const ID = (model.latest_version?.id ?? model.name)
-  const PADDING = 30
-  const NODE_WIDTH = 200
-  const NODE_HEIGHT = 40
   lastY.value += PADDING
   lastX.value = 0
   const WIDTH = Math.max(input_nodes.length, output_nodes.length) * (NODE_WIDTH + PADDING) + PADDING
@@ -116,7 +126,7 @@ const addModel = async () => {
   addNodes([{
     id: ID,
     label: model.name,
-    position: {x: lastX.value, y: lastY.value },
+    position: { x: lastX.value, y: lastY.value },
     style: { backgroundColor: '#f9d4', height: HEIGHT + 'px', width: WIDTH + 'px' },
     draggable: false,
     connectable: false,
@@ -126,7 +136,7 @@ const addModel = async () => {
   }])
   lastY.value += PADDING
   lastX.value = input_nodes.length >= output_nodes.length ? 0
-    : WIDTH/2 - (input_nodes.length * (NODE_WIDTH + PADDING) + PADDING)/2
+    : WIDTH / 2 - (input_nodes.length * (NODE_WIDTH + PADDING) + PADDING) / 2
   const IN_NODES = input_nodes.map(schema => {
     lastX.value += PADDING
     const node: Node = {
@@ -156,7 +166,7 @@ const addModel = async () => {
     type: 'model',
   }])
   lastX.value = output_nodes.length >= input_nodes.length ? 0
-    : WIDTH/2 - (output_nodes.length * (NODE_WIDTH + PADDING) + PADDING)/2;
+    : WIDTH / 2 - (output_nodes.length * (NODE_WIDTH + PADDING) + PADDING) / 2;
   lastY.value += NODE_HEIGHT + PADDING
   const OUT_NODES = output_nodes.map(schema => {
     lastX.value += PADDING
@@ -196,6 +206,41 @@ const addModel = async () => {
   console.log(Model)
 }
 
+const num_inputs = ref<number>(0)
+const addAudio = () => {
+  addNodes([{
+    id: `combos-input:${num_inputs.value}`,
+    label: 'Audio Input',
+    position: { x: num_inputs.value * (NODE_WIDTH + PADDING), y: -NODE_HEIGHT },
+    style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px' },
+    type: 'combos-output',
+    data: { type: 'audio' }
+  }])
+  num_inputs.value += 1
+}
+const addImage = () => {
+  addNodes([{
+    id: `combos-input:${num_inputs.value}`,
+    label: 'Image Input',
+    position: { x: num_inputs.value * (NODE_WIDTH + PADDING), y: -NODE_HEIGHT },
+    style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px' },
+    type: 'combos-output',
+    data: { type: 'image' }
+  }])
+  num_inputs.value += 1
+}
+const addText = () => {
+  addNodes([{
+    id: `combos-input:${num_inputs.value}`,
+    label: 'Text Input',
+    position: { x: num_inputs.value * (NODE_WIDTH + PADDING), y: -NODE_HEIGHT },
+    style: { height: NODE_HEIGHT + 'px', width: NODE_WIDTH + 'px' },
+    type: 'combos-output',
+    data: { type: 'string' }
+  }])
+  num_inputs.value += 1
+}
+
 onPaneReady(({ fitView }) => fitView())
 setTimeout(fitView, 300)
 
@@ -211,6 +256,16 @@ onConnect((params) => {
   if (getConnectedEdges(target.id).filter(edge => edge.target == target.id).length > 0) return false
   addEdges(params)
 })
+
+interface Step extends TopologicalNode {
+  source: string
+  value: Maybe<number>
+}
+const run = async () => {
+  const steps: Step[] = topologicalSort(getNodes.value, getEdges.value)
+    .map((step): Step => ({...step, value: null}))
+  console.log(steps)
+}
 </script>
 
 <template>
@@ -218,8 +273,20 @@ onConnect((params) => {
     <Background pattern-color="#484848" :gap="8" />
     <Controls />
   </VueFlow>
+  <Icon @click="run" name="integrations" color="white" class="logo" />
   <div class="control-panel">
-    <ButtonPrimary @click="addModel"><Icon name="plus" color="white" /> Add Model</ButtonPrimary>
+    <ButtonPrimary @click="addModel">
+      <Icon name="plus" color="white" /> Add Model
+    </ButtonPrimary>
+    <ButtonPrimary @click="addAudio">
+      <Icon name="plus" color="white" /> Add Audio
+    </ButtonPrimary>
+    <ButtonPrimary @click="addText">
+      <Icon name="plus" color="white" /> Add Text
+    </ButtonPrimary>
+    <ButtonPrimary @click="addImage">
+      <Icon name="plus" color="white" /> Add Image
+    </ButtonPrimary>
   </div>
 </template>
 
@@ -232,6 +299,12 @@ onConnect((params) => {
   height: fit-content;
   padding: 10px;
   background-color: var(--primary-background-color);
+}
+
+.logo {
+  position: absolute;
+  right: 15px;
+  top: 15px;
 }
 
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.23.0/dist/style.css';
