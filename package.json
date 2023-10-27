@@ -5,7 +5,7 @@
   "description": "Replicate Combo",
   "scripts": {
     "preinstall": "node package-inherit-cli.js update",
-    "start": "cross-env NODE_END=dev concurrently \"vite\" \"node proxy.js\"",
+    "start": "cross-env NODE_END=dev concurrently \"vite\" \"node api.js\"",
     "build": "vite build",
     "open": "open http://localhost:3415"
   },
