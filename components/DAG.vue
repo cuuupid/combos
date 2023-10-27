@@ -8,7 +8,7 @@ import API from '@Muse/lib/api';
 import ButtonPrimary from '@Muse/components/common/ButtonPrimary.vue';
 import Icon from "@Muse/components/common/Icon.vue"
 
-const { onPaneReady, onConnect, addEdges, fitView, addNodes, findNode } = useVueFlow({
+const { onPaneReady, onConnect, addEdges, fitView, addNodes, findNode, getConnectedEdges } = useVueFlow({
   fitViewOnInit: true,
   elevateNodesOnSelect: true,
   elevateEdgesOnSelect: false,
@@ -208,6 +208,7 @@ onConnect((params) => {
   if (!(source.type.includes('output') && target.type.includes('input'))) return false
   console.log(source.data.type, '->', target.data.type)
   if (source.data.type != target.data.type) return false
+  if (getConnectedEdges(target.id).filter(edge => edge.target == target.id).length > 0) return false
   addEdges(params)
 })
 </script>
