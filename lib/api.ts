@@ -6,11 +6,17 @@ export interface ModelGetQ {
 }
 export type ModelGetS = Model
 
+export interface ModelRunQ {
+  id: string
+  input: {[key: string]: string}
+}
+export type ModelRunS = object
 
 //////? API
 const BASE = 'http://localhost:5656'
 enum ENDPOINT {
   ModelGet = '/model/get',
+  ModelRun = '/model/run'
 }
 
 const POST = async <Q, S>(endpoint: ENDPOINT, body: Q) => {
@@ -27,7 +33,8 @@ const POST = async <Q, S>(endpoint: ENDPOINT, body: Q) => {
 //////? HELPER
 export default class API {
   static model = {
-    get: async (model: string) => POST<ModelGetQ, ModelGetS>(ENDPOINT.ModelGet, { model, })
+    get: async (model: string) => POST<ModelGetQ, ModelGetS>(ENDPOINT.ModelGet, { model, }),
+    run: async (id: string, input: {[key: string]: string}) => POST<ModelRunQ, ModelRunS>(ENDPOINT.ModelRun, { id, input, }),
   }
 }
 // @ts-ignore

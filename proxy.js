@@ -29,4 +29,13 @@ app.post('/model/get', async (q, s) => {
   s.json(model).status(200).send()
 })
 
+app.post('/model/run', async (q, s) => {
+  const { id, input } = q.body
+  console.log(id)
+  console.log(input)
+  const result = await replicate.run(id, {input,})
+  console.log(result)
+  return s.json(result).status(200).send()
+})
+
 app.listen(PORT, () => console.log(`listening ::${PORT}`))

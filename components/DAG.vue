@@ -48,6 +48,11 @@ const PADDING = 30
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 40
 
+type ModelOutputObject = {[key: string]: string}
+type ModelOutputArray = string[]
+type ModelOutput = ModelOutputObject | ModelOutputArray
+const isModelOutputArray = (v: ModelOutput): v is ModelOutputArray => (v as string[]).length > 0
+
 const addModel = async () => {
   const name = prompt("Which model would you like to add?")
   if (!name) throw new Error("user did not provide model name")
@@ -164,6 +169,7 @@ const addModel = async () => {
     connectable: false,
     selectable: false,
     type: 'model',
+    data: model,
   }])
   lastX.value = output_nodes.length >= input_nodes.length ? 0
     : WIDTH / 2 - (output_nodes.length * (NODE_WIDTH + PADDING) + PADDING) / 2;
@@ -262,7 +268,7 @@ interface Step extends TopologicalNode {
   value: Maybe<string>
 }
 
-const values = ref<{[id: string]: Step}>({})
+const vals = ref<{[id: string]: Step}>({})
 const run = async () => {
   const steps: Step[] = topologicalSort(getNodes.value, getEdges.value)
     .map((step): Step => ({...step, value: null}))
@@ -270,11 +276,37 @@ const run = async () => {
   for (const step of steps) {
     if (step.source == 'INPUT') {
       step.value = prompt(`Provide a value for ${step.label}`)
+    } else if (step.type == 'model') {
+      const model = step.data as ModelGetS
+      console.log('Executing model:', model)
+      const modelId = model.owner + '/' + model.name + ':' + model.latest_version?.id
+      const input: {[key: string]: string} = {}
+      const inputNodes = getConnectedEdges(step.id)
+        .filter(edge => edge.target == step.id)
+        .map(edge => findNode(edge.source))
+        .filter(node => node?.type.includes('input'))
+        .map(node => vals.value[node!.id])
+        .filter(_ => _)
+        .map(inputStep => {
+          console.log("Using input:", inputStep)
+          if (!inputStep) throw new Error("Missing computation in DAG")
+          if (!inputStep.value) throw new Error("Incomplete computation in DAG")
+          input[inputStep.data.key as string] = inputStep.value
+        })
+      const result = await API.model.run(modelId, input)
+      step.value = JSON.stringify(result)
+    } else if (step.type == 'model-output') {
+      const output: ModelOutput = JSON.parse(vals.value[step.source].value!)
+      if (isModelOutputArray(output)) step.value = output.reduceRight(_ => _)
+      else step.value = output[step.data.key]
     } else {
-
+      const source = vals.value[step.source]
+      if (!source) throw new Error("No source node")
+      step.value = source.value
     }
+    vals.value[step.id] = step
+    console.log(step.id, '->', step.value, '| from', step.source)
   }
-
 }
 </script>
 
